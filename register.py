@@ -43,7 +43,7 @@ def register():
         info1=un_entry.get()
         if not re.match(r'^[A-Za-z\s]+$',info1):
             messagebox.showinfo("Error","Please enter valid username")
-    
+            return
         info2=pwd_entry.get()
         checkPassword(info2)
 
@@ -52,22 +52,31 @@ def register():
 
         if not (re.fullmatch(regex, info3)):
             messagebox.showinfo("Error","Please enter a valid email id")
+            return
 
         if(info1=="" or info2=="" or info3==""):
             messagebox.showinfo("Insert status","All fields are required")
+            return
         else:
             username=un_entry.get()
             pwd=pwd_entry.get()
             email=email_entry.get()
-            bytes=pwd.encode('utf-8')
-            salt=bcrypt.gensalt()
-            hashedpwd = bcrypt.hashpw(bytes, salt) 
             
+            #hashedpwd = hash(pwd) 
+            with open("C:/Users/BLAUPLUG/Documents/Python_programs/User Management System/userdb.csv", "r") as file:
+                reader=csv.reader(file)
+                for row in reader:
+                    if username==row[0]:
+                        messagebox.showinfo("Error","Username already exist")
+                        return
             with open("C:/Users/BLAUPLUG/Documents/Python_programs/User Management System/userdb.csv", "a", newline="") as file:
                 writer = csv.writer(file)
-                writer.writerow([info1, hashedpwd, info3])
+                writer.writerow([username, pwd, email])
             messagebox.showinfo("Success", "User added successfully!")
-            #clear_textboxes()
+            un_entry.delete(0,tk.END)
+            pwd_entry.delete(0,tk.END)
+            email_entry.delete(0,tk.END)
+
 
     root=tk.Tk()
     root.title("Register page")
