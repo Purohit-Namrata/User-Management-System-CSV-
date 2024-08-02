@@ -39,9 +39,6 @@ def login():
                     df = pd.read_csv('C:/Users/BLAUPLUG/Documents/Python_programs/User Management System/userdb.csv')
                     
                     df = df.drop(df[df.Username == un].index)
-                    
-                    
-                    #df = df.drop(un)
                     df.to_csv('C:/Users/BLAUPLUG/Documents/Python_programs/User Management System/userdb.csv', index=False)
                                     
                     messagebox.showinfo("Success","Account deleted")
@@ -272,8 +269,8 @@ def login():
                 if not re.match(r'^[A-Za-z\s]+$',un):
                     messagebox.showinfo("Error","Please enter a valid username")
                     return
-                df = pd.read_csv('C:/Users/BLAUPLUG/Documents/Python_programs/User Management System/userdb.csv', index_col='Username')
-                df = df.drop(un)
+                df = pd.read_csv('C:/Users/BLAUPLUG/Documents/Python_programs/User Management System/userdb.csv')
+                df = df.drop(df[df.Username == un].index)
                 df.to_csv('C:/Users/BLAUPLUG/Documents/Python_programs/User Management System/userdb.csv', index=False)
                 
                 messagebox.showinfo("Success","Account deleted successfully")
